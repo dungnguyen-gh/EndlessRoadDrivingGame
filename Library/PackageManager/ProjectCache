@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638645596113059172
-    m_Hash: 4206569837
+      ticks: 638682056053391461
+    m_Hash: 1555581950
   m_LockFileStatus:
     m_FilePath: D:/unitytutorial/MyEndlessRoad/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638645596113406040
-    m_Hash: 3172016906
+      ticks: 638682056053391461
+    m_Hash: 2437636132
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
@@ -113,6 +113,8 @@ m_ResolvedPackages:
     - 2.9.7
     - 2.10.0
     - 2.10.1
+    - 2.10.2
+    - 2.10.3
     - 3.0.0-pre.3
     - 3.0.0-pre.4
     - 3.0.0-pre.5
@@ -129,6 +131,8 @@ m_ResolvedPackages:
     - 2.9.7
     - 2.10.0
     - 2.10.1
+    - 2.10.2
+    - 2.10.3
     - 3.0.0-pre.3
     - 3.0.0-pre.4
     - 3.0.0-pre.5
@@ -939,12 +943,14 @@ m_ResolvedPackages:
     - 1.9.1
     - 1.9.2
     - 1.9.4
+    - 1.9.5
     compatible:
     - 1.9.0
     - 1.9.1
     - 1.9.2
     - 1.9.4
-    recommended: 1.9.4
+    - 1.9.5
+    recommended: 1.9.5
     deprecated:
     - 1.8.0-pre.1
   dependencies:
@@ -3046,6 +3052,7 @@ m_ResolvedPackages:
     - 3.0.27
     - 3.0.28
     - 3.0.31
+    - 3.0.34
     compatible:
     - 3.0.24
     - 3.0.25
@@ -3053,7 +3060,8 @@ m_ResolvedPackages:
     - 3.0.27
     - 3.0.28
     - 3.0.31
-    recommended: 3.0.31
+    - 3.0.34
+    recommended: 3.0.34
     deprecated: []
   dependencies:
   - name: com.unity.ext.nunit

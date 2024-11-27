@@ -138,6 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalObject: {fileID: 2591979002068927534}
   model: {fileID: 2730085515475928908}
+  explosionEffect: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
 --- !u!114 &2577536844667605339
 MonoBehaviour:
   m_ObjectHideFlags: 0

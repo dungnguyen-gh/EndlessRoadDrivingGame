@@ -39,9 +39,7 @@ public class AICarSpawner : MonoBehaviour
             carAIPool[i] = Instantiate(carAIPrefabs[prefabIndex]);
             carAIPool[i].SetActive(false);
 
-            prefabIndex++;
-
-            //loop through prefabs if having many types, reset to 0
+            //increment prefab index
             prefabIndex = (prefabIndex + 1) % carAIPrefabs.Length;
         }
     }

@@ -170,6 +170,8 @@ public class CarHandler : MonoBehaviour
             if (collision.transform.root.CompareTag("Untagged") || collision.transform.root.CompareTag("CarAI"))
                 return;
         }
+        //get collision point
+        Vector3 collisionPoint = collision.contacts[0].point;
 
         Vector3 velocity = rb.velocity;
         explodeHandler.Explode(velocity * 45);

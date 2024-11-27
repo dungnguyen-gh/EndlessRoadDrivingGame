@@ -10,6 +10,8 @@ public class ExplodeHandler : MonoBehaviour
 
     Rigidbody[] rigidbodies;
 
+    [SerializeField] GameObject explosionEffect;
+
     private void Awake()
     {
         rigidbodies = model.GetComponentsInChildren<Rigidbody>(true);
@@ -24,6 +26,7 @@ public class ExplodeHandler : MonoBehaviour
     public void Explode(Vector3 externalForce)
     {
         originalObject.SetActive(false);
+
         foreach (Rigidbody rb in rigidbodies)
         {
             rb.transform.parent = null;
@@ -36,8 +39,37 @@ public class ExplodeHandler : MonoBehaviour
             rb.AddForce(Vector3.up * 200 + externalForce, ForceMode.Force);
             rb.AddTorque(Random.insideUnitSphere * 0.5f, ForceMode.Impulse);
 
+            
             //change the tag so other objects can explode when being hit by car parts
             rb.gameObject.tag = "CarPart";
         }
+        TriggerEffect();
+    }
+
+    void TriggerEffect()
+    {
+        Vector3 center = CalculateCenter();
+
+        Instantiate(explosionEffect, center, Quaternion.identity);
+    }
+    private Vector3 CalculateCenter()
+    {
+        Vector3 center = Vector3.zero;
+        int activePartsCount = 0;
+
+        foreach (Rigidbody rb in rigidbodies)
+        {
+            if (rb.gameObject.activeInHierarchy)
+            {
+                center += rb.transform.position;
+                activePartsCount++;
+            }
+        }
+        if (activePartsCount > 0)
+        {
+            //calculate average position
+            center /= activePartsCount; 
+        }
+        return center;
     }
 }
