@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Car\CarHandler.cs" />
     <Compile Include="Assets\Scripts\Coin\Coin.cs" />
     <Compile Include="Assets\Scripts\Explode\ExplodeHandler.cs" />
+    <Compile Include="Assets\Scripts\Utilities\RandomizeAssets.cs" />
     <Compile Include="Assets\Scripts\Coin\CoinManager.cs" />
     <Compile Include="Assets\Scripts\Input\InputHandler.cs" />
     <Compile Include="Assets\Scripts\Endless\EndlessLevelHandler.cs" />

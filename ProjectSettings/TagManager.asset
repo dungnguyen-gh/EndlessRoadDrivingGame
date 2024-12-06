@@ -8,6 +8,8 @@ TagManager:
   - CarPart
   - Coin
   - ParticleEffect
+  - Bench
+  - Housing
   layers:
   - Default
   - TransparentFX

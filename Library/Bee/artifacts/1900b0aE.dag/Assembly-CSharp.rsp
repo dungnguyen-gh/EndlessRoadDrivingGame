@@ -366,6 +366,7 @@
 "Assets/Scripts/Endless/EndlessSectionHandler.cs"
 "Assets/Scripts/Explode/ExplodeHandler.cs"
 "Assets/Scripts/Input/InputHandler.cs"
+"Assets/Scripts/Utilities/RandomizeAssets.cs"
 "Assets/Scripts/Utilities/RandomizeObject.cs"
 "Assets/Scripts/Utilities/Utils.cs"
 "Assets/SimpleCollectiblesPack/SimpleCollectibleScript.cs"

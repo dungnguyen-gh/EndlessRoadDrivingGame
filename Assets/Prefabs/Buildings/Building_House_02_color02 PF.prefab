@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 83863320127302546}
   m_Layer: 0
   m_Name: Building_House_02_color02 PF
-  m_TagString: Untagged
+  m_TagString: Housing
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
