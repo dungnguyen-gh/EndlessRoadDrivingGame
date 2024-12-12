@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Utilities\Utils.cs" />
     <Compile Include="Assets\Scripts\Utilities\RandomizeObject.cs" />
     <Compile Include="Assets\Scripts\Endless\EndlessSectionHandler.cs" />
+    <Compile Include="Assets\Scripts\Car\DistanceDisplay.cs" />
     <Compile Include="Assets\Scripts\AI\AIHandler.cs" />
   </ItemGroup>
   <ItemGroup>

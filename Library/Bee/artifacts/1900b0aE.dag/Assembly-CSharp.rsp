@@ -359,6 +359,7 @@
 "Assets/Scripts/AI/AICarSpawner.cs"
 "Assets/Scripts/AI/AIHandler.cs"
 "Assets/Scripts/Car/CarHandler.cs"
+"Assets/Scripts/Car/DistanceDisplay.cs"
 "Assets/Scripts/Coin/Coin.cs"
 "Assets/Scripts/Coin/CoinManager.cs"
 "Assets/Scripts/Coin/CoinSpawner.cs"

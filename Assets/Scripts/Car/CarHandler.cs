@@ -26,9 +26,24 @@ public class CarHandler : MonoBehaviour
 
     bool isPlayer = true;
 
+    //distance tracking
+    private float distanceTraveled = 0f;
+    private Vector3 lastPosition;
+    private Coroutine distanceCO;
+    WaitForSeconds wait = new WaitForSeconds(0.1f);
+
+    [SerializeField] DistanceDisplay distanceDisplay;
+
     void Start()
     {
         isPlayer = CompareTag("Player");
+
+        if (!isPlayer) distanceDisplay = null;
+
+        //start measuring distance
+        lastPosition = transform.position;
+
+        distanceCO = StartCoroutine(UpdateDistanceCO());
     }
     void Update()
     {
@@ -178,6 +193,43 @@ public class CarHandler : MonoBehaviour
 
         isExploded = true;
 
+        //stop coroutine when exploded
+        if (distanceCO != null)
+        {
+            StopCoroutine(distanceCO);
+            distanceCO = null;
+        }
+
+        //start slow down effects
         StartCoroutine(SlowDownTimeCO());
+    }
+    IEnumerator UpdateDistanceCO()
+    {
+        while (true)
+        {
+            yield return wait;
+
+            //calculate the distance has moved
+            float currentDistance = Vector3.Distance(transform.position, lastPosition);
+
+            //add to distance
+            distanceTraveled += currentDistance;
+
+            //update last position
+            lastPosition = transform.position;
+
+            //update UI
+            if (distanceDisplay != null)
+            {
+                distanceDisplay.UpdateDistanceText(distanceTraveled);
+            }
+        }
+    }
+    private void OnDestroy()
+    {
+        if (distanceCO != null)
+        {
+            StopCoroutine(distanceCO);
+        }
     }
 }
