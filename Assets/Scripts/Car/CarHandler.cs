@@ -10,6 +10,8 @@ public class CarHandler : MonoBehaviour
     
     [SerializeField] ExplodeHandler explodeHandler;
 
+    [SerializeField] MeshRenderer carMeshRenderer;
+
     //max values
     float maxSteerVelocity = 2f;
     float maxForwardVelocity = 15f;
@@ -34,6 +36,12 @@ public class CarHandler : MonoBehaviour
 
     [SerializeField] DistanceDisplay distanceDisplay;
 
+    //Emission property
+    private static readonly int _EmissionColor = Shader.PropertyToID("_EmissionColor");
+    Color emissiveColor = Color.red;
+    float currentEmissiveColorMultiplier = 0f;
+    float targetEmissiveColorMultiplier = 0f;
+
     void Start()
     {
         isPlayer = CompareTag("Player");
@@ -51,6 +59,16 @@ public class CarHandler : MonoBehaviour
 
         //rotate car model based on X velocity when turning for visual effect
         gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0);
+
+        if (carMeshRenderer != null)
+        {
+            bool isBraking = input.y < 0;
+
+            targetEmissiveColorMultiplier = isBraking ? 5.0f : 0.0f;
+
+            currentEmissiveColorMultiplier = Mathf.Lerp(currentEmissiveColorMultiplier, targetEmissiveColorMultiplier, Time.deltaTime * 4);
+            carMeshRenderer.material.SetColor(_EmissionColor, emissiveColor * currentEmissiveColorMultiplier);
+        }
     }
     private void FixedUpdate()
     {

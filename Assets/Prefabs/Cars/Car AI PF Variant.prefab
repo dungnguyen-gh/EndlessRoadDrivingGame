@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: explosionEffect
       value: 
       objectReference: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
+    - target: {fileID: 7002930368983588678, guid: 36a06f6c19553de4991159ff72462029, type: 3}
+      propertyPath: carMeshRenderer
+      value: 
+      objectReference: {fileID: 1757496541914228630}
     - target: {fileID: 8044932086253126958, guid: 36a06f6c19553de4991159ff72462029, type: 3}
       propertyPath: m_Name
       value: Car AI PF Variant
@@ -65,3 +69,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36a06f6c19553de4991159ff72462029, type: 3}
+--- !u!23 &1757496541914228630 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 906670062204472921, guid: 36a06f6c19553de4991159ff72462029, type: 3}
+  m_PrefabInstance: {fileID: 1510608396312357327}
+  m_PrefabAsset: {fileID: 0}

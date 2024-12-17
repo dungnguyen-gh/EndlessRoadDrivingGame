@@ -131,10 +131,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 906670062204472921, guid: 36a06f6c19553de4991159ff72462029, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 323db6e37d27cf24b830b26c70ca3d80, type: 2}
     - target: {fileID: 2859537733840404535, guid: 36a06f6c19553de4991159ff72462029, type: 3}
       propertyPath: explosionEffect
       value: 
       objectReference: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
+    - target: {fileID: 7002930368983588678, guid: 36a06f6c19553de4991159ff72462029, type: 3}
+      propertyPath: carMeshRenderer
+      value: 
+      objectReference: {fileID: 1160336815}
     - target: {fileID: 7002930368983588678, guid: 36a06f6c19553de4991159ff72462029, type: 3}
       propertyPath: distanceDisplay
       value: 
@@ -963,6 +971,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!23 &1160336815 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 906670062204472921, guid: 36a06f6c19553de4991159ff72462029, type: 3}
+  m_PrefabInstance: {fileID: 102463653}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1340099364 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8594177109849656526, guid: 36a06f6c19553de4991159ff72462029, type: 3}

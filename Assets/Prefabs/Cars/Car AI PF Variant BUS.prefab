@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: explosionEffect
       value: 
       objectReference: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
+    - target: {fileID: 7002930368983588678, guid: 36a06f6c19553de4991159ff72462029, type: 3}
+      propertyPath: carMeshRenderer
+      value: 
+      objectReference: {fileID: 3832221814637781016}
     - target: {fileID: 8044932086253126958, guid: 36a06f6c19553de4991159ff72462029, type: 3}
       propertyPath: m_Name
       value: Car AI PF Variant BUS
@@ -433,6 +437,11 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2959467708922500008, guid: 149a07b1361fef4479b194078548dfd2, type: 3}
+--- !u!23 &3832221814637781016 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3008792642357751339, guid: 48e38c45006f2684fa4ece46534b4dc0, type: 3}
+  m_PrefabInstance: {fileID: 2085071623659327027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4219651491531382840 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2765385221050920459, guid: 48e38c45006f2684fa4ece46534b4dc0, type: 3}
