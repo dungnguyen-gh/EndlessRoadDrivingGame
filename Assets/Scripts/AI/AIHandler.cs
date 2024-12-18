@@ -14,11 +14,17 @@ public class AIHandler : MonoBehaviour
 
     bool isCarAhead = false;
 
+    float carAheadDistance = 0f;
+
     //Timing
     WaitForSeconds checkInterval = new WaitForSeconds(0.2f);
 
     //Lanes
     int laneIndex = 0;
+
+    [Header("SFX")]
+    [SerializeField] AudioSource honkHornAS;
+
     private void Awake()
     {
         if (CompareTag("Player"))
@@ -44,19 +50,38 @@ public class AIHandler : MonoBehaviour
         //slow down if there is a car ahead
         float accelerationInput = isCarAhead ? -1.0f : 1.0f;
 
-        float steerInput = 0.0f;
+        //for honking
+        if (isCarAhead && carAheadDistance < 10)
+        {
+            PlayHorn();
+        }
 
+        float steerInput = CalculateSteering();
+
+        carHandler.SetInput(new Vector2(steerInput, accelerationInput));
+    }
+    void PlayHorn()
+    {
+        if (!honkHornAS.isPlaying)
+        {
+            honkHornAS.pitch = Random.Range(0.5f, 1.1f);
+            honkHornAS.Play();
+        }
+    }
+    private float CalculateSteering()
+    {
         //calculate steering based on desired lane index
         float targetPositionX = Utils.CarLanes[laneIndex];
 
         float distanceToTargetLane = targetPositionX - transform.position.x;
 
+        //is ai is far from target lane
         if (Mathf.Abs(distanceToTargetLane) > 0.05f)
-            steerInput = Mathf.Sign(distanceToTargetLane);
+        {
+            return Mathf.Clamp(Mathf.Sign(distanceToTargetLane), -1.0f, 1.0f);
+        }
 
-        steerInput = Mathf.Clamp(steerInput, -1.0f, 1.0f);
-
-        carHandler.SetInput(new Vector2(steerInput, accelerationInput));
+        return 0.0f;
     }
     IEnumerator CheckForCarAhead()
     {
@@ -80,6 +105,11 @@ public class AIHandler : MonoBehaviour
         int hitCount = Physics.BoxCastNonAlloc(boxCenter, boxHalfExtents, transform.forward, raycastHits, boxOrientation, maxDistance, otherCarsLayerMask);
         
         meshCollider.enabled = true;
+
+        if (hitCount > 0)
+        {
+            carAheadDistance = (transform.position - raycastHits[0].point).magnitude;
+        }
 
         return hitCount > 0;
     }
