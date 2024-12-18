@@ -16,6 +16,8 @@ public class CarHandler : MonoBehaviour
     float maxSteerVelocity = 2f;
     float maxForwardVelocity = 15f;
 
+    float carMaxSpeedPercentage = 0f;
+
     //rates
     float accelerationRate = 1.5f;
     float brakeRate = 10f;
@@ -42,33 +44,48 @@ public class CarHandler : MonoBehaviour
     float currentEmissiveColorMultiplier = 0f;
     float targetEmissiveColorMultiplier = 0f;
 
+    [Header("SFX")]
+    [SerializeField] AudioSource carEngineAS;
+
+    [SerializeField] AnimationCurve carPitchAnimationCurve;
+
+    [SerializeField] AudioSource carSkidAS;
+
+    [SerializeField] AudioSource carCrashAS;
+
     void Start()
     {
         isPlayer = CompareTag("Player");
 
-        if (!isPlayer) distanceDisplay = null;
+        if (!isPlayer)
+        {
+            distanceDisplay = null;
+        }
+        else
+        {
+            carEngineAS.Play();
 
-        //start measuring distance
-        lastPosition = transform.position;
+            //start measuring distance
+            lastPosition = transform.position;
 
-        distanceCO = StartCoroutine(UpdateDistanceCO());
+            distanceCO = StartCoroutine(UpdateDistanceCO());
+        }
     }
     void Update()
     {
-        if (isExploded) return;
+        if (isExploded) 
+        {
+            FadeOutCarAudio();
+            return;
+        }
+        
 
         //rotate car model based on X velocity when turning for visual effect
         gameModel.transform.rotation = Quaternion.Euler(0, rb.velocity.x * 5, 0);
 
-        if (carMeshRenderer != null)
-        {
-            bool isBraking = input.y < 0;
+        UpdateCarLight();
 
-            targetEmissiveColorMultiplier = isBraking ? 5.0f : 0.0f;
-
-            currentEmissiveColorMultiplier = Mathf.Lerp(currentEmissiveColorMultiplier, targetEmissiveColorMultiplier, Time.deltaTime * 4);
-            carMeshRenderer.material.SetColor(_EmissionColor, emissiveColor * currentEmissiveColorMultiplier);
-        }
+        UpdateCarAudio();
     }
     private void FixedUpdate()
     {
@@ -211,6 +228,14 @@ public class CarHandler : MonoBehaviour
 
         isExploded = true;
 
+        carCrashAS.volume = carMaxSpeedPercentage;
+        carCrashAS.volume = Mathf.Clamp(carCrashAS.volume, 0.25f, 1.0f);
+
+        carCrashAS.pitch = carMaxSpeedPercentage;
+        carCrashAS.pitch = Mathf.Clamp(carCrashAS.pitch, 0.3f, 1.0f);
+
+        carCrashAS.Play();
+
         //stop coroutine when exploded
         if (distanceCO != null)
         {
@@ -242,6 +267,57 @@ public class CarHandler : MonoBehaviour
                 distanceDisplay.UpdateDistanceText(distanceTraveled);
             }
         }
+    }
+    void UpdateCarLight()
+    {
+        if (!isPlayer) return;
+
+        if (carMeshRenderer != null)
+        {
+            bool isBraking = input.y < 0;
+
+            targetEmissiveColorMultiplier = isBraking ? 5.0f : 0.0f;
+
+            // can use Lerp or MoveTowards(smoother)
+            currentEmissiveColorMultiplier = Mathf.MoveTowards(currentEmissiveColorMultiplier, targetEmissiveColorMultiplier, Time.deltaTime * 4);
+
+            //cache material for optimization
+            Material carMaterial = carMeshRenderer.material;
+
+            //only update if having a change
+            if (!Mathf.Approximately(currentEmissiveColorMultiplier, targetEmissiveColorMultiplier))
+            {
+                carMaterial.SetColor(_EmissionColor, emissiveColor * currentEmissiveColorMultiplier);
+            }
+        }
+    }
+    void UpdateCarAudio()
+    {
+        if (!isPlayer) return;
+
+        carMaxSpeedPercentage = rb.velocity.z / maxForwardVelocity;
+
+        carEngineAS.pitch = carPitchAnimationCurve.Evaluate(carMaxSpeedPercentage);
+
+        if (input.y < 0 && carMaxSpeedPercentage > 0.2f)
+        {
+            if (!carSkidAS.isPlaying)
+                carSkidAS.Play();
+
+            carSkidAS.volume = Mathf.Lerp(carSkidAS.volume, 1.0f, Time.deltaTime * 10);
+        }
+        else
+        {
+            carSkidAS.volume = Mathf.Lerp(carSkidAS.volume, 0, Time.deltaTime * 30);
+        }
+    }
+    void FadeOutCarAudio()
+    {
+        if (!isPlayer) return;
+        //happen when car exploded
+        carEngineAS.volume = Mathf.Lerp(carEngineAS.volume, 0, Time.deltaTime * 10);
+
+        carSkidAS.volume = Mathf.Lerp(carSkidAS.volume, 0, Time.deltaTime * 10);
     }
     private void OnDestroy()
     {

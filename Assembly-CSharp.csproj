@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AI\AICarSpawner.cs" />
+    <Compile Include="Assets\Scripts\Explode\CarPartHandler.cs" />
     <Compile Include="Assets\SimpleCollectiblesPack\SimpleCollectibleScript.cs" />
     <Compile Include="Assets\Scripts\Coin\CoinSpawner.cs" />
     <Compile Include="Assets\Scripts\Car\CarHandler.cs" />

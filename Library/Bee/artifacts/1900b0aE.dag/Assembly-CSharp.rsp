@@ -365,6 +365,7 @@
 "Assets/Scripts/Coin/CoinSpawner.cs"
 "Assets/Scripts/Endless/EndlessLevelHandler.cs"
 "Assets/Scripts/Endless/EndlessSectionHandler.cs"
+"Assets/Scripts/Explode/CarPartHandler.cs"
 "Assets/Scripts/Explode/ExplodeHandler.cs"
 "Assets/Scripts/Input/InputHandler.cs"
 "Assets/Scripts/Utilities/RandomizeAssets.cs"
