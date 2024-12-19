@@ -15,10 +15,17 @@ public class Coin : MonoBehaviour
     //use static to make effect accessible across all coin instances, thus it only initialize once
     private static ParticleSystem collectEffect;
 
+    AudioSource coinAS;
+
+    MeshRenderer coinRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
         initialY = transform.position.y;
+
+        coinAS = GetComponent<AudioSource>();
+        coinRenderer = GetComponent<MeshRenderer>();
 
         if (collectEffect == null)
         {
@@ -43,6 +50,8 @@ public class Coin : MonoBehaviour
     {
         if (other.transform.root.CompareTag("Player"))
         {
+            PlayCoinSound();
+            
             Collect();
         }
     }
@@ -53,8 +62,27 @@ public class Coin : MonoBehaviour
             collectEffect.transform.position = transform.position;
             collectEffect.Play();
         }
-
+        coinRenderer.enabled = false;
         CoinManager.Instance.AddCoin();
+
+        StartCoroutine(DeactiveAfterSound());
+    }
+    private IEnumerator DeactiveAfterSound()
+    {
+        //wait for the sound finished
+        yield return new WaitWhile(() => coinAS.isPlaying);
+
         gameObject.SetActive(false);
+        coinRenderer.enabled = true;
+    }
+    private void PlayCoinSound()
+    {
+        //play sound depending on player's speed
+        if (!coinAS.isPlaying)
+        {
+            coinAS.pitch = 1.0f;
+            coinAS.volume = 1.0f;
+            coinAS.Play();
+        }
     }
 }
