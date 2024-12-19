@@ -39,6 +39,7 @@ public class CarHandler : MonoBehaviour
     [SerializeField] DistanceDisplay distanceDisplay;
 
     //Emission property
+    [Header("Emission")]
     private static readonly int _EmissionColor = Shader.PropertyToID("_EmissionColor");
     Color emissiveColor = Color.red;
     float currentEmissiveColorMultiplier = 0f;
@@ -68,7 +69,7 @@ public class CarHandler : MonoBehaviour
             //start measuring distance
             lastPosition = transform.position;
 
-            distanceCO = StartCoroutine(UpdateDistanceCO());
+            distanceCO = StartCoroutine(UpdateTraveledDistanceCO());
         }
     }
     void Update()
@@ -98,13 +99,10 @@ public class CarHandler : MonoBehaviour
 
         HandleDriving();
 
-        Steer();
+        HandleSteering();
 
-        ////force the car cannot go backwards
-        //if (rb.velocity.z <= 0)
-        //{
-        //    rb.velocity = Vector3.zero;
-        //}
+        //clamp car's x position
+        ClampCarXPosition();
 
         //force the car cannot go backwards
         if (rb.velocity.z <= 0)
@@ -112,7 +110,20 @@ public class CarHandler : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
     }
+    private void ClampCarXPosition()
+    {
+        Vector3 clampedPosition = rb.position;
 
+        float tolerance = 0.01f;
+
+        if (clampedPosition.x < -3f - tolerance || clampedPosition.x > 3f + tolerance)
+        {
+            //clamp position x
+            clampedPosition.x = Mathf.Clamp(clampedPosition.x, -3.0f, 3.0f);
+
+            rb.position = clampedPosition;
+        }
+    }
     void HandleDriving()
     {
         if (input.y > 0)
@@ -155,18 +166,17 @@ public class CarHandler : MonoBehaviour
         if (rb.velocity.z <= 0)
             return;
 
-        rb.AddForce(rb.transform.forward * brakeRate * input.y);
+        rb.AddForce(rb.transform.forward * brakeRate * input.y, ForceMode.Force);
     }
-    void Steer()
+    void HandleSteering()
     {
         if (Mathf.Abs(input.x) > 0)
         {
             //move sideways
-            float speedBaseSteerLimit = rb.velocity.z / 5.0f;
-            speedBaseSteerLimit = Mathf.Clamp01(speedBaseSteerLimit);
+            float speedSteerFactor = Mathf.Clamp01(rb.velocity.z / 5.0f);
 
             //apply a force based on input
-            rb.AddForce(rb.transform.right * steeringRate * input.x * speedBaseSteerLimit);
+            rb.AddForce(rb.transform.right * steeringRate * input.x * speedSteerFactor, ForceMode.Force);
 
             //normalize the x velocity
             float normalizedX = rb.velocity.x / maxSteerVelocity;
@@ -228,13 +238,7 @@ public class CarHandler : MonoBehaviour
 
         isExploded = true;
 
-        carCrashAS.volume = carMaxSpeedPercentage;
-        carCrashAS.volume = Mathf.Clamp(carCrashAS.volume, 0.25f, 1.0f);
-
-        carCrashAS.pitch = carMaxSpeedPercentage;
-        carCrashAS.pitch = Mathf.Clamp(carCrashAS.pitch, 0.3f, 1.0f);
-
-        carCrashAS.Play();
+        PlayCrashSound();
 
         //stop coroutine when exploded
         if (distanceCO != null)
@@ -246,7 +250,17 @@ public class CarHandler : MonoBehaviour
         //start slow down effects
         StartCoroutine(SlowDownTimeCO());
     }
-    IEnumerator UpdateDistanceCO()
+    void PlayCrashSound()
+    {
+        carCrashAS.volume = carMaxSpeedPercentage;
+        carCrashAS.volume = Mathf.Clamp(carCrashAS.volume, 0.25f, 1.0f);
+
+        carCrashAS.pitch = carMaxSpeedPercentage;
+        carCrashAS.pitch = Mathf.Clamp(carCrashAS.pitch, 0.3f, 1.0f);
+
+        carCrashAS.Play();
+    }
+    IEnumerator UpdateTraveledDistanceCO()
     {
         while (true)
         {

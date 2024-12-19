@@ -43,6 +43,7 @@ public class Coin : MonoBehaviour
 
             //move up down - creates an oscillating value between -height and height
             float newY = initialY + Mathf.Sin(Time.time * bounceSpeed) * bounceHeight;
+
             transform.position = new Vector3(transform.position.x, newY, transform.position.z);
         }
     }
