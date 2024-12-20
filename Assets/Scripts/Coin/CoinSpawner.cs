@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CoinSpawner : MonoBehaviour
 {
+    public static CoinSpawner Instance { get; private set; }
+
     [SerializeField] GameObject coinPrefab;
 
     //coin poll
@@ -17,6 +19,23 @@ public class CoinSpawner : MonoBehaviour
 
     //delay
     WaitForSeconds wait = new WaitForSeconds(1f);
+
+    
+    //coin count
+    private int coinAmount = 0;
+
+    private void Awake()
+    {
+        // If there is an instance, and it's not me, delete myself.
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -115,5 +134,10 @@ public class CoinSpawner : MonoBehaviour
                 coin.SetActive(false);
             }
         }
+    }
+    public void AddCoin()
+    {
+        coinAmount++;
+        CanvasManager.Instance.UpdateCoinText(coinAmount);
     }
 }

@@ -36,7 +36,6 @@ public class CarHandler : MonoBehaviour
     private Coroutine distanceCO;
     WaitForSeconds wait = new WaitForSeconds(0.1f);
 
-    [SerializeField] DistanceDisplay distanceDisplay;
 
     //Emission property
     [Header("Emission")]
@@ -54,13 +53,21 @@ public class CarHandler : MonoBehaviour
 
     [SerializeField] AudioSource carCrashAS;
 
+    //Boosting
+    [SerializeField] private float boostMultiplier = 2.0f;
+    [SerializeField] private float maxBoostEnergy = 100f;
+    [SerializeField] private float boostConsumptionRate = 30f;
+    [SerializeField] private float boostRechargeRate = 10f;
+    private float boostEnergy;
+    private bool isBoosting = false;
+
     void Start()
     {
         isPlayer = CompareTag("Player");
 
         if (!isPlayer)
         {
-            distanceDisplay = null;
+            return;
         }
         else
         {
@@ -278,10 +285,7 @@ public class CarHandler : MonoBehaviour
             lastPosition = transform.position;
 
             //update UI
-            if (distanceDisplay != null)
-            {
-                distanceDisplay.UpdateDistanceText(distanceTraveled);
-            }
+            CanvasManager.Instance.UpdateDistanceText(distanceTraveled);
         }
     }
     void UpdateCarLight()
@@ -340,6 +344,15 @@ public class CarHandler : MonoBehaviour
         if (distanceCO != null)
         {
             StopCoroutine(distanceCO);
+        }
+    }
+    void HandleBoosting()
+    {
+        if (Input.GetKey(KeyCode.Space) && boostEnergy > 0)
+        {
+            //boosting active
+            isBoosting = true;
+
         }
     }
 }

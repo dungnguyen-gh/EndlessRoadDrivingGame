@@ -64,7 +64,8 @@ public class Coin : MonoBehaviour
             collectEffect.Play();
         }
         coinRenderer.enabled = false;
-        CoinManager.Instance.AddCoin();
+
+        CoinSpawner.Instance.AddCoin();
 
         StartCoroutine(DeactiveAfterSound());
     }

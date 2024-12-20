@@ -66,13 +66,12 @@
     <Compile Include="Assets\Scripts\Coin\Coin.cs" />
     <Compile Include="Assets\Scripts\Explode\ExplodeHandler.cs" />
     <Compile Include="Assets\Scripts\Utilities\RandomizeAssets.cs" />
-    <Compile Include="Assets\Scripts\Coin\CoinManager.cs" />
     <Compile Include="Assets\Scripts\Input\InputHandler.cs" />
     <Compile Include="Assets\Scripts\Endless\EndlessLevelHandler.cs" />
     <Compile Include="Assets\Scripts\Utilities\Utils.cs" />
+    <Compile Include="Assets\Scripts\UI\CanvasManager.cs" />
     <Compile Include="Assets\Scripts\Utilities\RandomizeObject.cs" />
     <Compile Include="Assets\Scripts\Endless\EndlessSectionHandler.cs" />
-    <Compile Include="Assets\Scripts\Car\DistanceDisplay.cs" />
     <Compile Include="Assets\Scripts\AI\AIHandler.cs" />
   </ItemGroup>
   <ItemGroup>
