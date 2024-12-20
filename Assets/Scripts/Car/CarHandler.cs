@@ -114,14 +114,16 @@ public class CarHandler : MonoBehaviour
     {
         Vector3 clampedPosition = rb.position;
 
-        float tolerance = 0.01f;
 
-        if (clampedPosition.x < -3f - tolerance || clampedPosition.x > 3f + tolerance)
+        if (!Mathf.Approximately(clampedPosition.x, Mathf.Clamp(clampedPosition.x, -3.0f, 3.0f)))
         {
             //clamp position x
             clampedPosition.x = Mathf.Clamp(clampedPosition.x, -3.0f, 3.0f);
 
             rb.position = clampedPosition;
+
+            //reset velocity x to stop pushing force
+            rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
         }
     }
     void HandleDriving()
