@@ -54,16 +54,19 @@ public class CarHandler : MonoBehaviour
     [SerializeField] AudioSource carCrashAS;
 
     //Boosting
-    [SerializeField] private float boostMultiplier = 2.0f;
-    [SerializeField] private float maxBoostEnergy = 100f;
-    [SerializeField] private float boostConsumptionRate = 30f;
-    [SerializeField] private float boostRechargeRate = 10f;
-    private float boostEnergy;
-    private bool isBoosting = false;
+    [SerializeField] private float boostMultiplier = 3.0f;
+    [SerializeField] private float maxBoostEnergy = 10f;
+    [SerializeField] private float boostEnergy;
+    public bool isBoosting = false;
+    public ParticleSystem[] nitrusSmoke;
+    private bool isEmitting = true;
+
 
     void Start()
     {
         isPlayer = CompareTag("Player");
+
+        StopEmitter();
 
         if (!isPlayer)
         {
@@ -76,6 +79,8 @@ public class CarHandler : MonoBehaviour
             //start measuring distance
             lastPosition = transform.position;
 
+            InititalizeBoosting();
+
             distanceCO = StartCoroutine(UpdateTraveledDistanceCO());
         }
     }
@@ -83,6 +88,7 @@ public class CarHandler : MonoBehaviour
     {
         if (isExploded) 
         {
+            StopEmitter();
             FadeOutCarAudio();
             return;
         }
@@ -94,6 +100,8 @@ public class CarHandler : MonoBehaviour
         UpdateCarLight();
 
         UpdateCarAudio();
+
+        HandleBoosting();
     }
     private void FixedUpdate()
     {
@@ -163,11 +171,16 @@ public class CarHandler : MonoBehaviour
     {
         rb.drag = 0; //not slow down when accelerating
 
+        float maxVelocity = isBoosting ? maxForwardVelocity * boostMultiplier : maxForwardVelocity;
+
         //stay within the speed limit
-        if (rb.velocity.z >= maxForwardVelocity)
+        if (rb.velocity.z >= maxVelocity)
             return;
 
-        rb.AddForce(rb.transform.forward * accelerationRate * input.y); //get from user input forward
+        //apply force, boosted or normal
+        float currentAccelerationRate = isBoosting ? accelerationRate * boostMultiplier : accelerationRate;
+
+        rb.AddForce(rb.transform.forward * currentAccelerationRate * input.y); //get from user input forward
     }
     void Brake()
     {
@@ -278,14 +291,19 @@ public class CarHandler : MonoBehaviour
             //calculate the distance has moved
             float currentDistance = Vector3.Distance(transform.position, lastPosition);
 
-            //add to distance
-            distanceTraveled += currentDistance;
+            //check distance
+            if (currentDistance > 1.0f)
+            {
+                //add to distance
+                distanceTraveled += currentDistance;
 
-            //update last position
-            lastPosition = transform.position;
+                //update last position
+                lastPosition = transform.position;
 
-            //update UI
-            CanvasManager.Instance.UpdateDistanceText(distanceTraveled);
+                //update UI
+                CanvasManager.Instance.UpdateDistanceText(distanceTraveled);
+            }
+
         }
     }
     void UpdateCarLight()
@@ -348,11 +366,50 @@ public class CarHandler : MonoBehaviour
     }
     void HandleBoosting()
     {
-        if (Input.GetKey(KeyCode.Space) && boostEnergy > 0)
-        {
-            //boosting active
-            isBoosting = true;
+        if (!isPlayer) return;
 
+        if (!isBoosting && boostEnergy <= maxBoostEnergy)
+        {
+            boostEnergy += Time.deltaTime / 2;
         }
+        else
+        {
+            boostEnergy -= (boostEnergy <= 0) ? 0 : Time.deltaTime / 0.3f;
+        }
+        boostEnergy = Mathf.Clamp(boostEnergy, 0, maxBoostEnergy);
+
+        if (isBoosting)
+        {
+            if (boostEnergy > 0) StartEmitter();
+            else StopEmitter();
+        }
+        else StopEmitter();
+
+        //update ui
+        CanvasManager.Instance.UpdateBoost(boostEnergy);
+    }
+    void InititalizeBoosting()
+    {
+        boostEnergy = maxBoostEnergy;
+        CanvasManager.Instance.SetMaxBoost(maxBoostEnergy);
+        CanvasManager.Instance.UpdateBoost(boostEnergy);
+    }
+    void StartEmitter()
+    {
+        if (isEmitting) return;
+        for (int i = 0; i < nitrusSmoke.Length; i++)
+        {
+            nitrusSmoke[i].Play();
+        }
+        isEmitting = true;
+    }
+    void StopEmitter()
+    {
+        if (!isEmitting) return;
+        for (int i = 0; i < nitrusSmoke.Length; i++)
+        {
+            nitrusSmoke[i].Stop();
+        }
+        isEmitting = false;
     }
 }

@@ -20,10 +20,18 @@ PrefabInstance:
       propertyPath: explosionEffect
       value: 
       objectReference: {fileID: 6146545414153545494, guid: 61753401622c2a947a30e2147430e97d, type: 3}
+    - target: {fileID: 4753700534572672045, guid: 36a06f6c19553de4991159ff72462029, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.503
+      objectReference: {fileID: 0}
     - target: {fileID: 7002930368983588678, guid: 36a06f6c19553de4991159ff72462029, type: 3}
       propertyPath: carMeshRenderer
       value: 
       objectReference: {fileID: 3832221814637781016}
+    - target: {fileID: 8028248310411168134, guid: 36a06f6c19553de4991159ff72462029, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.503
+      objectReference: {fileID: 0}
     - target: {fileID: 8044932086253126958, guid: 36a06f6c19553de4991159ff72462029, type: 3}
       propertyPath: m_Name
       value: Car AI PF Variant BUS

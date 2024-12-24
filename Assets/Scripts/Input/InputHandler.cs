@@ -26,10 +26,14 @@ public class InputHandler : MonoBehaviour
 
         carHandler.SetInput(input);
 
+        //reset game
         if (Input.GetKeyDown(KeyCode.R))
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
+        // set boosting state
+        carHandler.isBoosting = Input.GetKey(KeyCode.Space);
     }
 }

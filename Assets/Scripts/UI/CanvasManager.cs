@@ -8,12 +8,11 @@ public class CanvasManager : MonoBehaviour
 {
     public static CanvasManager Instance { get; private set; }
 
-    //distance display
     [SerializeField] TMP_Text distanceText;
 
     [SerializeField] TMP_Text coinText;
 
-    [SerializeField] Slider boostSlider;
+    public Slider boostSlider;
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
