@@ -13,6 +13,11 @@ public class CanvasManager : MonoBehaviour
     [SerializeField] TMP_Text coinText;
 
     [SerializeField] Slider boostSlider;
+
+    [SerializeField] RectTransform needle;
+    private float maxNeedleRotation = -40f;
+    private float minNeedleRotation = 215f;
+
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -51,6 +56,16 @@ public class CanvasManager : MonoBehaviour
         if (boostSlider != null)
         {
             boostSlider.value = currentEnergy;
+        }
+    }
+
+    //set speedometer
+    public void UpdateSpeedometer(float speed, float maxSpeed)
+    {
+        if (needle != null)
+        {
+            float needleRotation = Mathf.Lerp(minNeedleRotation, maxNeedleRotation, speed / maxSpeed);
+            needle.localRotation = Quaternion.Euler(0, 0, needleRotation);
         }
     }
 }

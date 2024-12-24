@@ -100,8 +100,6 @@ public class CarHandler : MonoBehaviour
         UpdateCarLight();
 
         UpdateCarAudio();
-
-        HandleBoosting();
     }
     private void FixedUpdate()
     {
@@ -115,10 +113,6 @@ public class CarHandler : MonoBehaviour
         HandleDriving();
 
         HandleSteering();
-
-        //clamp car's x position
-        ClampCarXPosition();
-
         //force the car cannot go backwards
         if (rb.velocity.z <= 0)
         {
@@ -156,6 +150,14 @@ public class CarHandler : MonoBehaviour
         {
             Brake();
         }
+
+        //clamp car's x position
+        ClampCarXPosition();
+
+
+        HandleBoosting();
+
+        HandleSpeedometer();
     }
 
     void ApplyExplodedPhysics()
@@ -171,10 +173,10 @@ public class CarHandler : MonoBehaviour
     {
         rb.drag = 0; //not slow down when accelerating
 
-        float maxVelocity = isBoosting ? maxForwardVelocity * boostMultiplier : maxForwardVelocity;
+        float maxVelocity = isEmitting ? maxForwardVelocity * boostMultiplier : maxForwardVelocity;
 
         //apply deceleration after boosting
-        if (!isBoosting && rb.velocity.z > maxForwardVelocity)
+        if (!isEmitting && rb.velocity.z > maxForwardVelocity)
         {
             rb.velocity = Vector3.Lerp(
                 rb.velocity,
@@ -187,7 +189,7 @@ public class CarHandler : MonoBehaviour
             return;
 
         //apply force, boosted or normal
-        float currentAccelerationRate = isBoosting ? accelerationRate * boostMultiplier : accelerationRate;
+        float currentAccelerationRate = isEmitting ? accelerationRate * boostMultiplier : accelerationRate;
 
         rb.AddForce(rb.transform.forward * currentAccelerationRate * input.y); //get from user input forward
     }
@@ -379,11 +381,11 @@ public class CarHandler : MonoBehaviour
 
         if (!isBoosting && boostEnergy <= maxBoostEnergy)
         {
-            boostEnergy += Time.deltaTime / 2;
+            boostEnergy += Time.deltaTime / 3f;
         }
         else
         {
-            boostEnergy -= (boostEnergy <= 0) ? 0 : Time.deltaTime / 0.3f;
+            boostEnergy -= (boostEnergy <= 0) ? 0 : Time.deltaTime / 0.8f;
         }
         boostEnergy = Mathf.Clamp(boostEnergy, 0, maxBoostEnergy);
 
@@ -420,5 +422,13 @@ public class CarHandler : MonoBehaviour
             nitrusSmoke[i].Stop();
         }
         isEmitting = false;
+    }
+    void HandleSpeedometer()
+    {
+        if (!isPlayer) return;
+
+        float speed = rb.velocity.magnitude * 3.6f;
+
+        CanvasManager.Instance.UpdateSpeedometer(speed, 180f);
     }
 }
