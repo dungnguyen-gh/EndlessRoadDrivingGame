@@ -12,7 +12,7 @@ public class CanvasManager : MonoBehaviour
 
     [SerializeField] TMP_Text coinText;
 
-    public Slider boostSlider;
+    [SerializeField] Slider boostSlider;
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.

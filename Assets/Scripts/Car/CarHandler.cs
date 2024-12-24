@@ -14,12 +14,12 @@ public class CarHandler : MonoBehaviour
 
     //max values
     float maxSteerVelocity = 2f;
-    float maxForwardVelocity = 15f;
+    float maxForwardVelocity = 12f;
 
     float carMaxSpeedPercentage = 0f;
 
     //rates
-    float accelerationRate = 1.5f;
+    float accelerationRate = 1.2f;
     float brakeRate = 10f;
     float steeringRate = 5f;
 
@@ -56,7 +56,7 @@ public class CarHandler : MonoBehaviour
     //Boosting
     [SerializeField] private float boostMultiplier = 3.0f;
     [SerializeField] private float maxBoostEnergy = 10f;
-    [SerializeField] private float boostEnergy;
+    private float boostEnergy;
     public bool isBoosting = false;
     public ParticleSystem[] nitrusSmoke;
     private bool isEmitting = true;
@@ -172,6 +172,15 @@ public class CarHandler : MonoBehaviour
         rb.drag = 0; //not slow down when accelerating
 
         float maxVelocity = isBoosting ? maxForwardVelocity * boostMultiplier : maxForwardVelocity;
+
+        //apply deceleration after boosting
+        if (!isBoosting && rb.velocity.z > maxForwardVelocity)
+        {
+            rb.velocity = Vector3.Lerp(
+                rb.velocity,
+                new Vector3(rb.velocity.x, rb.velocity.y, maxForwardVelocity),
+                Time.deltaTime * 2);
+        }
 
         //stay within the speed limit
         if (rb.velocity.z >= maxVelocity)
