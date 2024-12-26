@@ -55,7 +55,7 @@ public class CanvasManager : MonoBehaviour
     {
         if (boostSlider != null)
         {
-            boostSlider.value = currentEnergy;
+            boostSlider.value = currentEnergy / 4;
         }
     }
 

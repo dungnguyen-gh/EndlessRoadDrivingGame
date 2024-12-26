@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
+using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
 {
     [SerializeField] CarHandler carHandler;
-
+    private PlayerInputAction inputActions;
     private void Awake()
     {
         if (!CompareTag("Player"))
@@ -14,26 +16,35 @@ public class InputHandler : MonoBehaviour
             Destroy(this);
             return;
         }
+
+        inputActions = new PlayerInputAction();
+
+        inputActions.PlayerInput.Reset.performed += OnResetGame;
+        inputActions.PlayerInput.Boost.started += OnBoostStart;
+        inputActions.PlayerInput.Boost.canceled += OnBoostEnd;
+        inputActions.PlayerInput.Move.performed += OnMove;
+        inputActions.PlayerInput.Move.canceled += OnMove;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable() => inputActions?.Enable();
+    private void OnDisable() => inputActions?.Disable();
+
+    private void OnResetGame(InputAction.CallbackContext context)
     {
-        Vector2 input = Vector2.zero;
-
-        input.x = Input.GetAxis("Horizontal");
-        input.y = Input.GetAxis("Vertical");
-
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    private void OnBoostStart(InputAction.CallbackContext context)
+    {
+        carHandler.isBoosting = true;
+    }
+    private void OnBoostEnd(InputAction.CallbackContext context)
+    {
+        carHandler.isBoosting = false;
+    }
+    private void OnMove(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>();
         carHandler.SetInput(input);
-
-        //reset game
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Time.timeScale = 1f;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-
-        // set boosting state
-        carHandler.isBoosting = Input.GetKey(KeyCode.Space);
     }
 }
