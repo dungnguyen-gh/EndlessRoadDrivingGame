@@ -24,6 +24,7 @@ public class InputHandler : MonoBehaviour
         inputActions.PlayerInput.Boost.canceled += OnBoostEnd;
         inputActions.PlayerInput.Move.performed += OnMove;
         inputActions.PlayerInput.Move.canceled += OnMove;
+        inputActions.PlayerInput.Exit.performed += OnExitGame;
     }
 
     private void OnEnable() => inputActions?.Enable();
@@ -46,5 +47,9 @@ public class InputHandler : MonoBehaviour
     {
         Vector2 input = context.ReadValue<Vector2>();
         carHandler.SetInput(input);
+    }
+    private void OnExitGame(InputAction.CallbackContext context)
+    {
+        Application.Quit();
     }
 }

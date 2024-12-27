@@ -35,7 +35,7 @@ public class CanvasManager : MonoBehaviour
     //display coin
     public void UpdateCoinText(int coinAmount)
     {
-        coinText.text = "Coins: " + coinAmount;
+        coinText.text = coinAmount.ToString();
     }
 
     //display distance

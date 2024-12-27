@@ -105,6 +105,7 @@
 -define:ENABLE_TERRAIN
 -define:ENABLE_TILEMAP
 -define:ENABLE_TIMELINE
+-define:ENABLE_INPUT_SYSTEM
 -define:ENABLE_LEGACY_INPUT_MANAGER
 -define:TEXTCORE_FONT_ENGINE_1_5_OR_NEWER
 -define:CSHARP_7_OR_LATER
@@ -300,6 +301,8 @@
 -r:"D:/2022.3.8f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.XRModule.dll"
 -r:"Library/PackageCache/com.unity.visualscripting@1.9.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
 -r:"Library/Bee/artifacts/1900b0aP.dag/Cinemachine.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aP.dag/Unity.InputSystem.ForUI.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aP.dag/Unity.InputSystem.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aP.dag/Unity.TextMeshPro.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aP.dag/Unity.Timeline.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aP.dag/Unity.VisualScripting.Core.ref.dll"
@@ -311,12 +314,22 @@
 "Assets/Scripts/AI/AICarSpawner.cs"
 "Assets/Scripts/AI/AIHandler.cs"
 "Assets/Scripts/Car/CarHandler.cs"
+"Assets/Scripts/Coin/Coin.cs"
+"Assets/Scripts/Coin/CoinSpawner.cs"
 "Assets/Scripts/Endless/EndlessLevelHandler.cs"
 "Assets/Scripts/Endless/EndlessSectionHandler.cs"
+"Assets/Scripts/Explode/CarPartHandler.cs"
 "Assets/Scripts/Explode/ExplodeHandler.cs"
 "Assets/Scripts/Input/InputHandler.cs"
+"Assets/Scripts/Input/PlayerInputAction.cs"
+"Assets/Scripts/Selection/CarAwake.cs"
+"Assets/Scripts/Selection/InitializationManager.cs"
+"Assets/Scripts/Selection/SelectionManager.cs"
+"Assets/Scripts/UI/CanvasManager.cs"
+"Assets/Scripts/Utilities/RandomizeAssets.cs"
 "Assets/Scripts/Utilities/RandomizeObject.cs"
 "Assets/Scripts/Utilities/Utils.cs"
+"Assets/SimpleCollectiblesPack/SimpleCollectibleScript.cs"
 -langversion:9.0
 
 /deterministic

@@ -53,6 +53,15 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""b18a3782-3f45-442e-951c-9850b79e0ab6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -125,11 +134,22 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""42364a4e-965c-4557-81de-72e08c4aa2da"",
-                    ""path"": ""<Keyboard>/shift"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ca6f6155-d45f-46f1-878e-e053d50e620b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -143,6 +163,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         m_PlayerInput_Move = m_PlayerInput.FindAction("Move", throwIfNotFound: true);
         m_PlayerInput_Reset = m_PlayerInput.FindAction("Reset", throwIfNotFound: true);
         m_PlayerInput_Boost = m_PlayerInput.FindAction("Boost", throwIfNotFound: true);
+        m_PlayerInput_Exit = m_PlayerInput.FindAction("Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,6 +228,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_Move;
     private readonly InputAction m_PlayerInput_Reset;
     private readonly InputAction m_PlayerInput_Boost;
+    private readonly InputAction m_PlayerInput_Exit;
     public struct PlayerInputActions
     {
         private @PlayerInputAction m_Wrapper;
@@ -214,6 +236,7 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_PlayerInput_Move;
         public InputAction @Reset => m_Wrapper.m_PlayerInput_Reset;
         public InputAction @Boost => m_Wrapper.m_PlayerInput_Boost;
+        public InputAction @Exit => m_Wrapper.m_PlayerInput_Exit;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,6 +255,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Boost.started += instance.OnBoost;
             @Boost.performed += instance.OnBoost;
             @Boost.canceled += instance.OnBoost;
+            @Exit.started += instance.OnExit;
+            @Exit.performed += instance.OnExit;
+            @Exit.canceled += instance.OnExit;
         }
 
         private void UnregisterCallbacks(IPlayerInputActions instance)
@@ -245,6 +271,9 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
             @Boost.started -= instance.OnBoost;
             @Boost.performed -= instance.OnBoost;
             @Boost.canceled -= instance.OnBoost;
+            @Exit.started -= instance.OnExit;
+            @Exit.performed -= instance.OnExit;
+            @Exit.canceled -= instance.OnExit;
         }
 
         public void RemoveCallbacks(IPlayerInputActions instance)
@@ -267,5 +296,6 @@ public partial class @PlayerInputAction: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
     }
 }
