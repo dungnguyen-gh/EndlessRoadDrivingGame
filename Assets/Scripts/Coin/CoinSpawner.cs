@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CoinSpawner : MonoBehaviour
 {
-    public static CoinSpawner Instance { get; private set; }
-
     [SerializeField] GameObject coinPrefab;
 
     //coin poll
@@ -24,23 +22,19 @@ public class CoinSpawner : MonoBehaviour
     //coin count
     private int coinAmount = 0;
 
-    private void Awake()
+
+    private void OnEnable()
     {
-        // If there is an instance, and it's not me, delete myself.
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
+        InitializationManager.OnInitializationComplete += OnInitializationFinish;
+    }
+    private void OnDisable()
+    {
+        InitializationManager.OnInitializationComplete -= OnInitializationFinish;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnInitializationFinish()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerTransform = InitializationManager.Instance.PlayerTransform;
 
         InitializeCoinPool();
         StartCoroutine(SpawnCoins());
@@ -51,6 +45,7 @@ public class CoinSpawner : MonoBehaviour
         for (int i = 0; i < coinPool.Length; i++)
         {
             coinPool[i] = Instantiate(coinPrefab);
+            coinPool[i].GetComponent<Coin>().SetCoinSpawner(this);
             coinPool[i].SetActive(false);
         }
     }
@@ -135,7 +130,7 @@ public class CoinSpawner : MonoBehaviour
             }
         }
     }
-    public void AddCoin()
+    public void AddCoinPoint()
     {
         coinAmount++;
         CanvasManager.Instance.UpdateCoinText(coinAmount);

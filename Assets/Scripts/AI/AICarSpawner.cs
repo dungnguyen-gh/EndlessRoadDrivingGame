@@ -18,12 +18,20 @@ public class AICarSpawner : MonoBehaviour
     WaitForSeconds wait = new WaitForSeconds(0.5f);
 
     //overlap check to avoid on spawning on other cars
-    Collider[] overlappedCheckCollider = new Collider[1]; 
+    Collider[] overlappedCheckCollider = new Collider[1];
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void OnEnable()
     {
-        playerCarTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        InitializationManager.OnInitializationComplete += OnInitializationFinish;
+    }
+    private void OnDisable()
+    {
+        InitializationManager.OnInitializationComplete -= OnInitializationFinish;
+    }
+    private void OnInitializationFinish()
+    {
+        playerCarTransform = InitializationManager.Instance.PlayerTransform;
 
         InitializeCarPool();
 

@@ -9,7 +9,7 @@ public class EndlessSectionHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerCarTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerCarTransform = InitializationManager.Instance.PlayerTransform;
     }
 
     // Update is called once per frame

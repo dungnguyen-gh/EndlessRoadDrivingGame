@@ -10317,7 +10317,7 @@ MonoBehaviour:
   rb: {fileID: 7834393590008502330}
   gameModel: {fileID: 1396895359242734862}
   explodeHandler: {fileID: 2859537733840404535}
-  carMeshRenderer: {fileID: 0}
+  carMeshRenderer: {fileID: 906670062204472921}
   carEngineAS: {fileID: 8844261455900744889}
   carPitchAnimationCurve:
     serializedVersion: 2
@@ -10347,7 +10347,6 @@ MonoBehaviour:
   carCrashAS: {fileID: 1940514911410599939}
   boostMultiplier: 2
   maxBoostEnergy: 100
-  boostEnergy: 0
   isBoosting: 0
   nitrusSmoke:
   - {fileID: 712098730907631427}
@@ -10465,7 +10464,7 @@ PrefabInstance:
     - target: {fileID: -6652725513331149018, guid: 15f6a1057e8649742ace900680789d2c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 444598fdbae3357408ac7daa0fd9eabe, type: 2}
+      objectReference: {fileID: 2100000, guid: 323db6e37d27cf24b830b26c70ca3d80, type: 2}
     - target: {fileID: -6562692508605934948, guid: 15f6a1057e8649742ace900680789d2c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -10970,6 +10969,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d524d4b196686684792b0f4ccb7da546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!23 &906670062204472921 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -6652725513331149018, guid: 15f6a1057e8649742ace900680789d2c, type: 3}
+  m_PrefabInstance: {fileID: 3403004957146364287}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2591979002068927534 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 15f6a1057e8649742ace900680789d2c, type: 3}

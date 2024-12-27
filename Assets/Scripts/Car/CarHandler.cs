@@ -381,11 +381,11 @@ public class CarHandler : MonoBehaviour
 
         if (!isBoosting && boostEnergy <= maxBoostEnergy)
         {
-            boostEnergy += Time.deltaTime / 3f;
+            boostEnergy += Time.deltaTime * 20f;
         }
         else
         {
-            boostEnergy -= (boostEnergy <= 0) ? 0 : Time.deltaTime / 0.8f;
+            boostEnergy -= (boostEnergy <= 0) ? 0 : Time.deltaTime * 10f;
         }
         boostEnergy = Mathf.Clamp(boostEnergy, 0, maxBoostEnergy);
 

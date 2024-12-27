@@ -28,6 +28,7 @@ public class CanvasManager : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(Instance);
         }
     }
 

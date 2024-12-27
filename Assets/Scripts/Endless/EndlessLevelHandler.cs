@@ -20,10 +20,18 @@ public class EndlessLevelHandler : MonoBehaviour
 
     const float sectionLength = 26; //length of each road
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        playerCarTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        InitializationManager.OnInitializationComplete += OnInitializationFinish;
+    }
+    private void OnDisable()
+    {
+        InitializationManager.OnInitializationComplete -= OnInitializationFinish;
+    }
+
+    private void OnInitializationFinish()
+    {
+        playerCarTransform = InitializationManager.Instance.PlayerTransform;
 
         int prefabIndex = 0;
 
@@ -55,9 +63,9 @@ public class EndlessLevelHandler : MonoBehaviour
             //store this section in the sections array, representing the currently active segment of the road
             sections[i] = randomSection; 
         }
+
         //call periodically
         StartCoroutine(UpdateLessOftenCO());
-
     }
 
     IEnumerator UpdateLessOftenCO()

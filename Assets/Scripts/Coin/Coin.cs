@@ -19,6 +19,7 @@ public class Coin : MonoBehaviour
 
     MeshRenderer coinRenderer;
 
+    CoinSpawner coinSpawner;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,7 +66,7 @@ public class Coin : MonoBehaviour
         }
         coinRenderer.enabled = false;
 
-        CoinSpawner.Instance.AddCoin();
+        coinSpawner.AddCoinPoint();
 
         StartCoroutine(DeactiveAfterSound());
     }
@@ -86,5 +87,9 @@ public class Coin : MonoBehaviour
             coinAS.volume = 1.0f;
             coinAS.Play();
         }
+    }
+    public void SetCoinSpawner(CoinSpawner coin)
+    {
+        coinSpawner = coin;
     }
 }
