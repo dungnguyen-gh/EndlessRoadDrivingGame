@@ -25,6 +25,7 @@ public class InputHandler : MonoBehaviour
         inputActions.PlayerInput.Move.performed += OnMove;
         inputActions.PlayerInput.Move.canceled += OnMove;
         inputActions.PlayerInput.Exit.performed += OnExitGame;
+        inputActions.PlayerInput.Pause.performed += OnPauseGame;
     }
 
     private void OnEnable() => inputActions?.Enable();
@@ -32,8 +33,7 @@ public class InputHandler : MonoBehaviour
 
     private void OnResetGame(InputAction.CallbackContext context)
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        InitializationManager.Instance.ResetGame();
     }
     private void OnBoostStart(InputAction.CallbackContext context)
     {
@@ -51,5 +51,9 @@ public class InputHandler : MonoBehaviour
     private void OnExitGame(InputAction.CallbackContext context)
     {
         Application.Quit();
+    }
+    private void OnPauseGame(InputAction.CallbackContext context)
+    {
+        InitializationManager.Instance.PauseToggle();
     }
 }

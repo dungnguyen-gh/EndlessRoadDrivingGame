@@ -53,7 +53,7 @@ public class CarHandler : MonoBehaviour
 
     [SerializeField] AudioSource carCrashAS;
 
-    //Boosting
+    [Header("BOOSTING")]
     [SerializeField] private float boostMultiplier = 3.0f;
     [SerializeField] private float maxBoostEnergy = 10f;
     private float boostEnergy;
@@ -271,6 +271,8 @@ public class CarHandler : MonoBehaviour
 
         isExploded = true;
 
+        StartCoroutine(ResetSpeedCO());
+
         PlayCrashSound();
 
         //stop coroutine when exploded
@@ -282,6 +284,8 @@ public class CarHandler : MonoBehaviour
 
         //start slow down effects
         StartCoroutine(SlowDownTimeCO());
+
+        CanvasManager.Instance.ActiveLosePanel();
     }
     void PlayCrashSound()
     {
@@ -431,4 +435,27 @@ public class CarHandler : MonoBehaviour
 
         CanvasManager.Instance.UpdateSpeedometer(speed, 180f);
     }
+    IEnumerator ResetSpeedCO()
+    {
+        float duration = 1f;
+        float elapsedTime = 0f;
+        Vector3 initialVelocity = rb.velocity;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            //reduce velocity to 0 gradually
+            rb.velocity = Vector3.Lerp(initialVelocity, Vector3.zero, elapsedTime / duration);
+
+            float speed = rb.velocity.magnitude * 3.6f;
+
+            CanvasManager.Instance.UpdateSpeedometer(speed, 180f);
+            yield return null;
+        }
+
+        rb.velocity = Vector3.zero;
+        CanvasManager.Instance.UpdateSpeedometer(0f, 180f);
+    }
+    
 }

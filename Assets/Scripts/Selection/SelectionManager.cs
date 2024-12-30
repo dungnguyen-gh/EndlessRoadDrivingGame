@@ -28,11 +28,14 @@ public class SelectionManager : MonoBehaviour
         inputActions = new PlayerInputAction();
 
         inputActions.PlayerInput.Exit.performed += OnExitGame;
+        inputActions.PlayerInput.Reset.performed += OnLoadGame;
     }
-
+    private void OnEnable() => inputActions?.Enable();
+    private void OnDisable() => inputActions?.Disable();
     // Start is called before the first frame update
     void Start()
     {
+        isSliding = false;
         //deactive all cars, active the first one
         for (int i = 0; i < cars.Length; i++)
         {
@@ -132,10 +135,15 @@ public class SelectionManager : MonoBehaviour
     }
     private void OnExitGame(InputAction.CallbackContext context)
     {
-        Application.Quit();
+        Exit();
     }
     public void Exit()
     {
         Application.Quit();
+    }
+    public void OnLoadGame(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Debug.Log("load scecec");
     }
 }

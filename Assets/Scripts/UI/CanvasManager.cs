@@ -18,6 +18,12 @@ public class CanvasManager : MonoBehaviour
     private float maxNeedleRotation = -40f;
     private float minNeedleRotation = 215f;
 
+    [SerializeField] GameObject tutorialMenu;
+    [SerializeField] GameObject pausePanel;
+
+    [SerializeField] GameObject losePanel;
+    [SerializeField] TMP_Text scoreText;
+
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -28,10 +34,12 @@ public class CanvasManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(Instance);
         }
     }
-
+    private void Start()
+    {
+        SetPauseMenu(false);
+    }
     //display coin
     public void UpdateCoinText(int coinAmount)
     {
@@ -68,5 +76,21 @@ public class CanvasManager : MonoBehaviour
             float needleRotation = Mathf.Lerp(minNeedleRotation, maxNeedleRotation, speed / maxSpeed);
             needle.localRotation = Quaternion.Euler(0, 0, needleRotation);
         }
+    }
+    public void SetPauseMenu(bool isShowing)
+    {
+        pausePanel.SetActive(isShowing);
+        if (!isShowing && tutorialMenu.activeSelf) tutorialMenu.SetActive(false);
+    }
+
+    public void ActiveLosePanel()
+    {
+        StartCoroutine(ActiveLosePanelCO());
+    }
+    IEnumerator ActiveLosePanelCO()
+    {
+        yield return new WaitForSeconds(3);
+        losePanel.SetActive(true);
+        scoreText.text = coinText.text;
     }
 }
