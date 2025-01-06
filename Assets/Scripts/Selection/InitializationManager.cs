@@ -16,6 +16,8 @@ public class InitializationManager : MonoBehaviour
 
     private bool isPaused = false;
 
+    private List<AudioSource> audioSources = new List<AudioSource>();
+
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
@@ -44,6 +46,8 @@ public class InitializationManager : MonoBehaviour
         isPaused = !isPaused;
         Time.timeScale = isPaused ? 0 : 1;
         CanvasManager.Instance.SetPauseMenu(isPaused);
+        if (isPaused) PauseAudio();
+        else ResumeAudio();
     }
 
     public void BackToMain()
@@ -56,5 +60,25 @@ public class InitializationManager : MonoBehaviour
         Time.timeScale = 1f;
         CanvasManager.Instance.SetPauseMenu(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    private void PauseAudio()
+    {
+        var audios = FindObjectsOfType<AudioSource>();
+        foreach (var audio in audios)
+        {
+            if (audio.isPlaying)
+            {
+                audio.Pause();
+                audioSources.Add(audio);
+            }
+        }
+    }
+    private void ResumeAudio()
+    {
+        foreach (var audio in audioSources)
+        {
+            audio.Play();
+        }
+        audioSources.Clear();
     }
 }
